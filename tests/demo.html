@@ -1,0 +1,55 @@
+<!doctype html>
+<html>
+	<head>
+		<title>MusicXML to VexFlow</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+
+		<script type="text/javascript" src="//rawgit.com/0xfe/vexflow/master/build/vexflow/vexflow-min.js"></script>
+		
+		<script type="text/javascript" src="../src/musicxml/musicxml.js"></script>
+		<script type="text/javascript" src="../src/vexmusicxml/musicxml.js"></script>
+		<script type="text/javascript" src="../src/vexmusicxml/config.js"></script>
+		<script type="text/javascript" src="../src/vexmusicxml/layout.js"></script>
+		<script type="text/javascript" src="../src/vexmusicxml/renderer.js"></script>
+
+		<script type="text/javascript">
+			function clearPage() {
+				var canvas = document.getElementById("vexCanvas");
+				var context = canvas.getContext('2d');
+				context.clearRect(0, 0, canvas.width, canvas.height);
+			}
+			
+			function renderMusicXml() {
+				var xml = document.getElementById("musicxml").value;
+				var mxml = MusicXml.parse(xml);
+				var renderer = new Vex.MusicXml.Renderer('#vexCanvas', mxml);
+				renderer.render();
+			}			
+			
+			function updateCanvasWidth() {
+				var canvas = document.getElementById("vexCanvas");
+				canvas.width = parseInt(document.getElementById("pageWidth").value);
+			}
+		</script>
+	</head>
+	<body>
+		<div id="content">
+			<div style="border: 1px solid #dddddd; padding: 5px">
+				Page Width:&nbsp;<input type="text" width="50" maxlength="4" size="5" id="pageWidth" value="800" onchange="updateCanvasWidth()">
+				<input type="button" onclick="renderMusicXml()" value="Render">
+				<input type="button" onclick="clearPage()" value="Clear">
+			</div>
+
+			<div>
+				<textarea id="musicxml" style="font-family: 'courier new'; width: 100%; height: 75px;"></textarea>
+			</div>
+
+			<div style="border: 1px solid #dddddd;">
+				<div id="tab-wrapper" style="padding: 10px; height: 700px; overflow-y: auto">
+					<canvas id="vexCanvas" class="vex-tabdiv" width="800" height="4000" scale="1.0"></canvas>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
